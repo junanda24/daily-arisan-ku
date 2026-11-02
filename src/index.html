@@ -1,0 +1,946 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<meta name="color-scheme" content="light" />
+<link rel="icon" href="data:," />
+<title>ArisanKu</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+<style>
+  :root{
+    --cream:#FFF8E7;
+    --cream-2:#FFFBF0;
+    --card:#FFFFFF;
+    --line:#EADFC0;
+    --line-2:#EFE3C2;
+    --green:#14532D;
+    --green-2:#1B6B3A;
+    --green-soft:#E4EFE5;
+    --gold:#B45309;
+    --gold-soft:#FDF0D5;
+    --gold-line:#E5B96A;
+    --ink:#22301F;
+    --muted:#77694F;
+    --danger:#B42318;
+    --radius:16px;
+  }
+  *{box-sizing:border-box}
+  html{-webkit-text-size-adjust:100%}
+  body{
+    margin:0;
+    background:var(--cream);
+    color:var(--ink);
+    font-family:"Plus Jakarta Sans",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+    font-size:16px;
+    line-height:1.55;
+  }
+  .wrap{max-width:680px;margin:0 auto;padding:20px 16px 48px}
+  /* Intro fairness note */
+  .intro{
+    background:var(--green);
+    color:#FFF8E7;
+    border-radius:var(--radius);
+    padding:18px 18px 16px;
+    box-shadow:0 8px 24px rgba(20,83,45,.18);
+  }
+  .intro p{margin:0;font-size:15.5px;line-height:1.6}
+  .intro p strong{color:#F5C86B}
+  .intro .sub{margin-top:8px;font-size:13.5px;opacity:.88}
+  /* Cards & sections */
+  .card{
+    background:var(--card);
+    border:1px solid var(--line);
+    border-radius:var(--radius);
+    padding:18px;
+    margin-top:16px;
+    box-shadow:0 2px 10px rgba(120,90,20,.06);
+  }
+  h2{
+    margin:0 0 4px;
+    font-size:18px;
+    line-height:1.3;
+    color:var(--green);
+    letter-spacing:-.01em;
+  }
+  .section-note{margin:0 0 14px;font-size:14px;color:var(--muted)}
+  label{display:block;font-size:13.5px;font-weight:700;color:var(--ink);margin:12px 0 6px}
+  label:first-of-type{margin-top:0}
+  input[type="text"],input[type="number"],select{
+    width:100%;
+    padding:12px 13px;
+    font:inherit;
+    font-size:16px;
+    color:var(--ink);
+    background:var(--cream-2);
+    border:1.5px solid var(--line);
+    border-radius:11px;
+    outline:none;
+  }
+  input:focus,select:focus{border-color:var(--green);background:#fff;box-shadow:0 0 0 3px rgba(20,83,45,.12)}
+  .hint{font-size:13px;color:var(--muted);margin:6px 0 0}
+  .error{font-size:13.5px;color:var(--danger);font-weight:600;margin:10px 0 0;display:none}
+  .error.show{display:block}
+  .row{display:flex;gap:10px}
+  .row > *{flex:1}
+  /* Buttons */
+  button{
+    font:inherit;
+    cursor:pointer;
+    border-radius:11px;
+    font-weight:700;
+    font-size:15px;
+    padding:12px 16px;
+    border:1.5px solid transparent;
+  }
+  button:disabled{cursor:not-allowed;opacity:.55}
+  .btn-primary{background:var(--green);color:#fff;width:100%;margin-top:16px}
+  .btn-primary:not(:disabled):active{background:var(--green-2)}
+  .btn-gold{background:var(--gold);color:#fff;width:100%}
+  .btn-gold:not(:disabled):active{filter:brightness(1.08)}
+  .btn-outline{background:#fff;border-color:var(--green);color:var(--green)}
+  .btn-outline:active{background:var(--green-soft)}
+  .btn-ghost{background:transparent;border-color:var(--line);color:var(--muted)}
+  .btn-danger-text{background:transparent;border:none;color:var(--danger);padding:8px 0;font-size:14px;text-decoration:underline;text-underline-offset:3px}
+  .btn-small{padding:9px 13px;font-size:14px;border-radius:10px;white-space:nowrap}
+  /* Empty state steps */
+  .steps{list-style:none;margin:14px 0 0;padding:0;display:grid;gap:10px}
+  .steps li{display:flex;gap:12px;align-items:flex-start;background:var(--cream-2);border:1px solid var(--line-2);border-radius:12px;padding:12px 13px}
+  .step-num{
+    flex:0 0 28px;height:28px;border-radius:50%;
+    background:var(--green);color:#fff;
+    display:flex;align-items:center;justify-content:center;
+    font-weight:800;font-size:14px;margin-top:1px;
+  }
+  .steps strong{display:block;font-size:15px}
+  .steps span{font-size:13.5px;color:var(--muted)}
+  .steps .step-num{color:#fff}
+  .divider{display:flex;align-items:center;gap:12px;margin:18px 0 0;color:var(--muted);font-size:13px;font-weight:600}
+  .divider::before,.divider::after{content:"";flex:1;height:1px;background:var(--line)}
+  /* Group header */
+  .group-head{display:flex;flex-wrap:wrap;gap:10px;align-items:flex-start;justify-content:space-between}
+  .group-head h2{font-size:21px;margin:0}
+  .group-meta{font-size:14px;color:var(--muted);margin-top:4px}
+  .group-meta strong{color:var(--ink)}
+  .badge{
+    display:inline-block;font-size:12.5px;font-weight:800;letter-spacing:.02em;
+    padding:4px 9px;border-radius:999px;line-height:1.4;
+  }
+  .badge-example{background:var(--gold-soft);color:var(--gold);border:1px solid var(--gold-line)}
+  .badge-round{background:var(--green);color:#fff}
+  .badge-period{background:var(--green-soft);color:var(--green);border:1px solid #CBE0CE}
+  .pills{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+  /* Summary */
+  .stats{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:4px}
+  .stat{background:var(--cream-2);border:1px solid var(--line-2);border-radius:12px;padding:12px 13px}
+  .stat .k{font-size:12.5px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.04em}
+  .stat .v{font-size:19px;font-weight:800;color:var(--ink);margin-top:2px;font-variant-numeric:tabular-nums}
+  .stat .v.gold{color:var(--gold)}
+  .stat .v.green{color:var(--green)}
+  .progress-track{height:12px;background:#EFE4C4;border-radius:999px;overflow:hidden;margin-top:14px}
+  .progress-fill{height:100%;background:var(--green);border-radius:999px;transition:width .35s ease}
+  .progress-fill.full{background:var(--gold)}
+  .progress-label{display:flex;justify-content:space-between;font-size:13.5px;color:var(--muted);margin-top:7px;font-weight:600}
+  .progress-label strong{color:var(--ink)}
+  /* Draw panel */
+  .draw-stage{
+    border:2px dashed var(--gold-line);
+    background:var(--gold-soft);
+    border-radius:14px;
+    min-height:96px;
+    display:flex;flex-direction:column;align-items:center;justify-content:center;
+    padding:18px 14px;text-align:center;
+  }
+  .draw-stage .stage-label{font-size:12.5px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:var(--gold)}
+  .draw-stage .stage-name{font-size:27px;font-weight:800;color:var(--ink);line-height:1.2;margin-top:4px;word-break:break-word}
+  .draw-stage .stage-sub{font-size:13.5px;color:var(--muted);margin-top:4px}
+  .draw-stage.rolling .stage-name{color:var(--gold)}
+  .draw-reason{font-size:14px;color:var(--muted);margin:12px 0 0;text-align:center}
+  .draw-reason strong{color:var(--ink)}
+  /* Winner card */
+  .winner{
+    margin-top:16px;
+    border:2px solid var(--gold-line);
+    background:linear-gradient(180deg,#FFF6DC,#FFFDF3);
+    border-radius:14px;
+    padding:18px;
+    text-align:center;
+  }
+  .winner .w-label{font-size:12.5px;font-weight:800;letter-spacing:.07em;text-transform:uppercase;color:var(--gold)}
+  .winner .w-name{font-size:28px;font-weight:800;line-height:1.2;margin:6px 0 2px;word-break:break-word}
+  .winner .w-amount{font-size:21px;font-weight:800;color:var(--gold);font-variant-numeric:tabular-nums}
+  .winner .w-date{font-size:13.5px;color:var(--muted);margin-top:6px}
+  .round-done{
+    margin-top:16px;
+    background:var(--green-soft);
+    border:1.5px solid #BFD8C4;
+    border-radius:14px;
+    padding:16px;
+    text-align:center;
+  }
+  .round-done strong{display:block;font-size:17px;color:var(--green)}
+  .round-done p{margin:6px 0 12px;font-size:14px;color:var(--ink)}
+  /* Members */
+  .add-form{display:flex;gap:8px;align-items:flex-end}
+  .add-form .field{flex:1;min-width:0}
+  .add-form button{flex:0 0 auto;width:auto}
+  .add-form label{margin-top:0}
+  .member{
+    display:flex;align-items:center;gap:12px;
+    padding:13px 2px;
+    border-bottom:1px solid var(--line-2);
+  }
+  .member:last-child{border-bottom:none;padding-bottom:2px}
+  .member-num{
+    flex:0 0 34px;height:34px;border-radius:50%;
+    border:1.5px solid var(--green);color:var(--green);
+    display:flex;align-items:center;justify-content:center;
+    font-weight:800;font-size:14px;background:var(--cream-2);
+  }
+  .member-info{flex:1;min-width:0}
+  .member-name{font-weight:700;font-size:15.5px;word-break:break-word}
+  .member-tags{display:flex;gap:6px;flex-wrap:wrap;margin-top:5px}
+  .tag{font-size:12px;font-weight:700;padding:3px 8px;border-radius:999px;line-height:1.4}
+  .tag-paid{background:var(--green-soft);color:var(--green)}
+  .tag-unpaid{background:#FBEDE8;color:#9A3412}
+  .tag-won{background:var(--gold-soft);color:var(--gold);border:1px solid var(--gold-line)}
+  .tag-duty{display:block;font-size:12.5px;color:var(--muted);font-weight:600;margin-top:5px}
+  .member-actions{display:flex;flex-direction:column;gap:6px;align-items:stretch}
+  .pay-btn{min-width:104px}
+  .pay-btn.paid{background:var(--green);color:#fff;border-color:var(--green)}
+  .pay-btn.unpaid{background:#fff;color:#9A3412;border-color:#E8B4A6}
+  .del-btn{background:transparent;border:none;color:var(--danger);font-size:13px;padding:4px 6px;text-decoration:underline;text-underline-offset:3px}
+  .empty-note{font-size:14px;color:var(--muted);margin:10px 0 0}
+  /* Tagih + history */
+  .bill-row{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:11px 2px;border-bottom:1px solid var(--line-2);font-size:15px}
+  .bill-row:last-child{border-bottom:none}
+  .bill-row .b-name{font-weight:700;word-break:break-word}
+  .bill-row .b-amount{font-weight:800;color:var(--ink);white-space:nowrap;font-variant-numeric:tabular-nums}
+  .bill-note{font-size:12.5px;color:var(--gold);font-weight:700;margin-top:3px}
+  .copy-ok{
+    display:none;margin-top:12px;background:var(--green-soft);color:var(--green);
+    border:1px solid #BFD8C4;border-radius:10px;padding:10px 12px;
+    font-size:14px;font-weight:700;text-align:center;
+  }
+  .copy-ok.show{display:block}
+  .hist-row{display:flex;justify-content:space-between;gap:12px;padding:12px 2px;border-bottom:1px solid var(--line-2)}
+  .hist-row:last-child{border-bottom:none;padding-bottom:2px}
+  .hist-main{font-size:15px}
+  .hist-main strong{word-break:break-word}
+  .hist-sub{font-size:13px;color:var(--muted);margin-top:2px}
+  .hist-amount{font-weight:800;color:var(--gold);white-space:nowrap;font-variant-numeric:tabular-nums}
+  .footer-note{margin-top:20px;text-align:center;font-size:13px;color:var(--muted)}
+  /* Modal */
+  .modal-backdrop{
+    display:none;position:fixed;inset:0;background:rgba(34,48,31,.55);
+    align-items:flex-end;justify-content:center;z-index:50;padding:16px;
+  }
+  .modal-backdrop.open{display:flex}
+  .modal{
+    background:#fff;border-radius:18px;padding:20px;width:100%;max-width:440px;
+    box-shadow:0 18px 50px rgba(0,0,0,.28);
+  }
+  .modal h3{margin:0 0 6px;font-size:18px;color:var(--ink)}
+  .modal p{margin:0 0 16px;font-size:14.5px;color:var(--muted)}
+  .modal-actions{display:flex;gap:10px}
+  .modal-actions button{flex:1}
+  .btn-danger{background:var(--danger);color:#fff}
+  @media (min-width:560px){
+    .wrap{padding:28px 20px 56px}
+    .modal-backdrop{align-items:center}
+    .stats{grid-template-columns:repeat(4,1fr)}
+    .stat .v{font-size:17px}
+  }
+  @media (prefers-reduced-motion:reduce){
+    .progress-fill{transition:none}
+  }
+</style>
+</head>
+<body>
+<main class="wrap">
+
+  <div class="intro">
+    <p>ArisanKu menjaga kocokan tetap adil — <strong>yang belum bayar tidak bisa menang</strong>, dan <strong>yang sudah menang tidak bisa menang lagi</strong> di putaran yang sama.</p>
+    <p class="sub">Gratis, tanpa login. Semua data hanya tersimpan di perangkat ini.</p>
+  </div>
+
+  <!-- STATE KOSONG -->
+  <section id="emptyState" class="card" hidden>
+    <h2>Belum ada grup arisan</h2>
+    <p class="section-note">Mulai dalam empat langkah. Data tersimpan otomatis di perangkat ini setiap kali ada perubahan.</p>
+    <ol class="steps">
+      <li><span class="step-num">1</span><div><strong>Buat grup</strong><span>Isi nama grup, nominal iuran, dan frekuensi kocokan.</span></div></li>
+      <li><span class="step-num">2</span><div><strong>Tambah anggota</strong><span>Nomor urut anggota terisi otomatis sesuai urutan penambahan.</span></div></li>
+      <li><span class="step-num">3</span><div><strong>Tandai pembayaran</strong><span>Ubah status tiap anggota menjadi Lunas untuk periode berjalan.</span></div></li>
+      <li><span class="step-num">4</span><div><strong>Kocok arisan</strong><span>Hanya anggota yang lunas dan belum menang yang bisa terpilih.</span></div></li>
+    </ol>
+
+    <form id="createForm" novalidate>
+      <label for="groupName">Nama grup</label>
+      <input type="text" id="groupName" placeholder="Contoh: Arisan RT 05" maxlength="60" autocomplete="off" />
+      <div class="row">
+        <div>
+          <label for="duesInput">Nominal iuran (Rp)</label>
+          <input type="number" id="duesInput" inputmode="numeric" min="1" step="1" placeholder="100000" />
+        </div>
+        <div>
+          <label for="freqSelect">Frekuensi</label>
+          <select id="freqSelect">
+            <option value="Mingguan">Mingguan</option>
+            <option value="Bulanan" selected>Bulanan</option>
+          </select>
+        </div>
+      </div>
+      <p class="hint">Nominal ditulis angka saja, tanpa titik atau “Rp”. Contoh: 100000 berarti Rp100.000.</p>
+      <p class="error" id="createError" role="alert"></p>
+      <button type="submit" class="btn-primary">Buat Grup Arisan</button>
+    </form>
+
+    <div class="divider">atau</div>
+    <button type="button" class="btn-outline" id="exampleBtn" style="width:100%;margin-top:16px">Coba dengan contoh</button>
+    <p class="hint" style="text-align:center">Memuat grup “Arisan Contoh — RT 05” berisi 6 anggota contoh. Grup contoh bisa dihapus kapan saja.</p>
+  </section>
+
+  <!-- APLIKASI -->
+  <div id="app" hidden>
+
+    <section class="card" aria-label="Grup aktif">
+      <div class="group-head">
+        <div>
+          <h2 id="groupNameDisplay"></h2>
+          <p class="group-meta" id="groupMeta"></p>
+          <div class="pills">
+            <span class="badge badge-round" id="roundBadge"></span>
+            <span class="badge badge-period" id="periodBadge"></span>
+            <span class="badge badge-example" id="exampleBadge" hidden>Contoh</span>
+          </div>
+        </div>
+      </div>
+      <button type="button" class="btn-danger-text" id="resetAllBtn">Hapus semua dan mulai baru</button>
+    </section>
+
+    <section class="card" aria-label="Ringkasan periode">
+      <h2>Ringkasan periode berjalan</h2>
+      <p class="section-note" id="summaryNote"></p>
+      <div class="stats">
+        <div class="stat"><div class="k">Anggota</div><div class="v" id="statMembers">0</div></div>
+        <div class="stat"><div class="k">Sudah lunas</div><div class="v green" id="statPaid">0</div></div>
+        <div class="stat"><div class="k">Terkumpul</div><div class="v gold" id="statCollected">Rp0</div></div>
+        <div class="stat"><div class="k">Target</div><div class="v" id="statTarget">Rp0</div></div>
+      </div>
+      <div class="progress-track" role="progressbar" id="progressBar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
+      <div class="progress-label"><span id="progressText">0% dari target</span><span id="progressRemain"></span></div>
+    </section>
+
+    <section class="card" aria-label="Kocok arisan">
+      <h2>Kocok Arisan</h2>
+      <p class="section-note">Satu kocokan untuk setiap periode. Pemenang diambil hanya dari anggota yang lunas dan belum menang di putaran ini.</p>
+
+      <div class="draw-stage" id="drawStage">
+        <span class="stage-label" id="stageLabel">Siap dikocok</span>
+        <span class="stage-name" id="stageName">—</span>
+        <span class="stage-sub" id="stageSub">Nama yang memenuhi syarat akan bergulir di sini.</span>
+      </div>
+      <p class="draw-reason" id="drawReason"></p>
+      <button type="button" class="btn-gold" id="drawBtn" style="margin-top:14px">Kocok Arisan</button>
+
+      <div id="winnerCard" class="winner" hidden>
+        <div class="w-label">Pemenang periode ini</div>
+        <div class="w-name" id="winnerName"></div>
+        <div class="w-amount" id="winnerAmount"></div>
+        <div class="w-date" id="winnerDate"></div>
+      </div>
+
+      <div id="roundDoneBox" class="round-done" hidden>
+        <strong>Putaran selesai</strong>
+        <p>Semua anggota sudah pernah menang satu kali di putaran ini. Putaran berikutnya dimulai dari periode 1 dengan semua anggota kembali berpeluang menang.</p>
+        <button type="button" class="btn-primary" id="newRoundBtn" style="margin-top:0">Mulai putaran baru</button>
+      </div>
+
+      <button type="button" class="btn-primary" id="nextPeriodBtn" hidden>Periode berikutnya</button>
+    </section>
+
+    <section class="card" aria-label="Anggota">
+      <h2>Anggota</h2>
+      <p class="section-note">Anggota baru langsung berstatus Belum Bayar pada periode berjalan. Nomor urut mengikuti urutan penambahan.</p>
+      <form id="addMemberForm" novalidate>
+        <div class="add-form">
+          <div class="field">
+            <label for="memberName">Nama anggota</label>
+            <input type="text" id="memberName" placeholder="Nama lengkap anggota" maxlength="50" autocomplete="off" />
+          </div>
+          <button type="submit" class="btn-primary btn-small" style="margin-top:0">Tambah</button>
+        </div>
+        <p class="error" id="memberError" role="alert"></p>
+      </form>
+      <div id="memberList"></div>
+      <p class="empty-note" id="memberEmpty" hidden>Belum ada anggota. Tambahkan anggota pertama di atas untuk memulai.</p>
+    </section>
+
+    <section class="card" aria-label="Daftar tagih">
+      <h2>Daftar Tagih</h2>
+      <p class="section-note">Anggota yang masih Belum Bayar pada periode berjalan.</p>
+      <div id="billList"></div>
+      <p class="empty-note" id="billEmpty" hidden>Semua anggota sudah lunas pada periode ini.</p>
+      <button type="button" class="btn-outline" id="copyBtn" style="width:100%;margin-top:16px">Salin rekap untuk grup WA</button>
+      <p class="copy-ok" id="copyOk" role="status">Rekap tersalin. Tempel di grup WA Anda.</p>
+    </section>
+
+    <section class="card" aria-label="Riwayat kocokan">
+      <h2>Riwayat Kocokan</h2>
+      <p class="section-note">Riwayat tidak hilang saat pindah periode atau putaran.</p>
+      <div id="historyList"></div>
+      <p class="empty-note" id="historyEmpty" hidden>Belum ada kocokan. Riwayat akan tampil di sini setelah kocokan pertama.</p>
+    </section>
+
+    <p class="footer-note">Data tersimpan di perangkat ini saja. Rekap yang disalin tidak berisi data selain ringkasan arisan di atas.</p>
+  </div>
+</main>
+
+<!-- MODAL KONFIRMASI HAPUS -->
+<div class="modal-backdrop" id="confirmBackdrop" role="dialog" aria-modal="true" aria-labelledby="confirmTitle">
+  <div class="modal">
+    <h3 id="confirmTitle">Hapus semua data?</h3>
+    <p>Grup, anggota, status bayar, dan seluruh riwayat kocokan akan dihapus dari perangkat ini. Tindakan ini tidak bisa dibatalkan.</p>
+    <div class="modal-actions">
+      <button type="button" class="btn-ghost" id="cancelResetBtn">Batal</button>
+      <button type="button" class="btn-danger" id="confirmResetBtn">Ya, hapus semua</button>
+    </div>
+  </div>
+</div>
+
+<script>
+(function(){
+  "use strict";
+  var STORAGE_KEY = "arisanku-v1";
+
+  var state = loadState();
+
+  var $ = function(id){ return document.getElementById(id); };
+
+  var emptyStateEl = $("emptyState");
+  var appEl = $("app");
+
+  function defaultState(){
+    return { group:null, round:1, period:1, members:[], history:[], drawn:null };
+  }
+
+  function loadState(){
+    try{
+      var raw = window.localStorage.getItem(STORAGE_KEY);
+      if(!raw) return defaultState();
+      var parsed = JSON.parse(raw);
+      if(!parsed || typeof parsed !== "object") return defaultState();
+      return {
+        group: parsed.group || null,
+        round: parsed.round || 1,
+        period: parsed.period || 1,
+        members: Array.isArray(parsed.members) ? parsed.members : [],
+        history: Array.isArray(parsed.history) ? parsed.history : [],
+        drawn: parsed.drawn || null
+      };
+    }catch(e){ return defaultState(); }
+  }
+
+  function save(){
+    try{ window.localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); }catch(e){}
+  }
+
+  function formatRupiah(n){
+    var num = Number(n) || 0;
+    return "Rp" + num.toLocaleString("id-ID");
+  }
+
+  function formatDate(iso){
+    try{
+      var d = new Date(iso);
+      var datePart = d.toLocaleDateString("id-ID", { day:"numeric", month:"long", year:"numeric" });
+      var timePart = d.toLocaleTimeString("id-ID", { hour:"2-digit", minute:"2-digit" }).replace(".", ":");
+      return datePart + " · " + timePart + " WIB";
+    }catch(e){ return iso; }
+  }
+
+  function escapeHtml(s){
+    return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");
+  }
+
+  function unwonCount(){
+    return state.members.filter(function(m){ return !m.hasWon; }).length;
+  }
+  function paidCount(){
+    return state.members.filter(function(m){ return m.paid; }).length;
+  }
+  function collected(){
+    return paidCount() * (state.group ? state.group.dues : 0);
+  }
+  function target(){
+    return state.members.length * (state.group ? state.group.dues : 0);
+  }
+  function eligibleMembers(){
+    return state.members.filter(function(m){ return m.paid && !m.hasWon; });
+  }
+  function isRoundComplete(){
+    return state.members.length > 0 && state.members.every(function(m){ return m.hasWon; });
+  }
+
+  /* ---------- Render ---------- */
+
+  function render(){
+    var hasGroup = !!state.group;
+    emptyStateEl.hidden = hasGroup;
+    appEl.hidden = !hasGroup;
+    if(!hasGroup) return;
+    renderGroup();
+    renderSummary();
+    renderDraw();
+    renderMembers();
+    renderBill();
+    renderHistory();
+  }
+
+  function renderGroup(){
+    $("groupNameDisplay").textContent = state.group.name;
+    $("groupMeta").innerHTML = "Iuran <strong>" + escapeHtml(formatRupiah(state.group.dues)) + "</strong> · " + escapeHtml(state.group.frequency);
+    $("roundBadge").textContent = "Putaran " + state.round;
+    $("periodBadge").textContent = "Periode " + state.period;
+    $("exampleBadge").hidden = !state.group.example;
+  }
+
+  function renderSummary(){
+    var members = state.members.length;
+    var paid = paidCount();
+    var coll = collected();
+    var tgt = target();
+    var pct = tgt > 0 ? Math.round(coll / tgt * 100) : 0;
+    $("summaryNote").textContent = "Putaran " + state.round + " · Periode " + state.period + " · " + state.group.frequency + ".";
+    $("statMembers").textContent = members;
+    $("statPaid").textContent = paid + " dari " + members;
+    $("statCollected").textContent = formatRupiah(coll);
+    $("statTarget").textContent = formatRupiah(tgt);
+    $("progressFill").style.width = pct + "%";
+    $("progressFill").className = "progress-fill" + (pct >= 100 && tgt > 0 ? " full" : "");
+    $("progressBar").setAttribute("aria-valuenow", String(pct));
+    $("progressText").textContent = pct + "% dari target";
+    $("progressRemain").textContent = tgt > coll ? "Kurang " + formatRupiah(tgt - coll) : (tgt > 0 ? "Target tercapai" : "");
+  }
+
+  var rolling = false;
+
+  function renderDraw(){
+    var reasonEl = $("drawReason");
+    var drawBtn = $("drawBtn");
+    var stage = $("drawStage");
+
+    // Winner card for current period
+    if(state.drawn){
+      $("winnerCard").hidden = false;
+      $("winnerName").textContent = state.drawn.winnerName;
+      $("winnerAmount").textContent = formatRupiah(state.drawn.amount);
+      $("winnerDate").textContent = "Dikocok " + formatDate(state.drawn.date);
+    } else {
+      $("winnerCard").hidden = true;
+    }
+
+    var complete = isRoundComplete();
+    $("roundDoneBox").hidden = !complete;
+    $("nextPeriodBtn").hidden = !(state.drawn && !complete);
+
+    if(rolling){
+      drawBtn.disabled = true;
+      return;
+    }
+
+    if(!state.members.length){
+      stage.className = "draw-stage";
+      $("stageLabel").textContent = "Belum ada anggota";
+      $("stageName").textContent = "—";
+      $("stageSub").textContent = "Tambahkan anggota, lalu tandai yang sudah lunas.";
+      reasonEl.innerHTML = "Tambah anggota terlebih dahulu untuk memulai kocokan.";
+      drawBtn.disabled = true;
+      return;
+    }
+
+    if(state.drawn){
+      stage.className = "draw-stage";
+      $("stageLabel").textContent = "Periode sudah dikocok";
+      $("stageName").textContent = state.drawn.winnerName;
+      $("stageSub").textContent = complete ? "Putaran ini selesai." : "Lanjutkan ke periode berikutnya untuk mengocok lagi.";
+      reasonEl.innerHTML = complete
+        ? "Semua anggota sudah menang di putaran ini."
+        : "Periode ini sudah dikocok. Tekan <strong>Periode berikutnya</strong> untuk lanjut.";
+      drawBtn.disabled = true;
+      return;
+    }
+
+    var eligible = eligibleMembers();
+    if(eligible.length === 0){
+      stage.className = "draw-stage";
+      $("stageLabel").textContent = "Belum bisa dikocok";
+      $("stageName").textContent = "—";
+      $("stageSub").textContent = "Nama yang memenuhi syarat akan bergulir di sini.";
+      if(paidCount() === 0){
+        reasonEl.textContent = "Belum ada anggota yang lunas pada periode ini.";
+      } else {
+        reasonEl.textContent = "Semua anggota yang lunas sudah menang di putaran ini.";
+      }
+      drawBtn.disabled = true;
+      return;
+    }
+
+    stage.className = "draw-stage";
+    $("stageLabel").textContent = "Siap dikocok";
+    $("stageName").textContent = eligible.length + " anggota eligible";
+    $("stageSub").textContent = "Hanya anggota yang lunas dan belum menang yang bisa terpilih.";
+    reasonEl.innerHTML = "<strong>" + eligible.length + " anggota</strong> memenuhi syarat pada periode ini.";
+    drawBtn.disabled = false;
+  }
+
+  function renderMembers(){
+    var list = $("memberList");
+    var unwon = unwonCount();
+    $("memberEmpty").hidden = state.members.length > 0;
+    list.innerHTML = "";
+    state.members.forEach(function(m, idx){
+      var row = document.createElement("div");
+      row.className = "member";
+
+      var num = document.createElement("span");
+      num.className = "member-num";
+      num.textContent = String(idx + 1);
+
+      var info = document.createElement("div");
+      info.className = "member-info";
+      var nameEl = document.createElement("div");
+      nameEl.className = "member-name";
+      nameEl.textContent = m.name;
+      info.appendChild(nameEl);
+
+      var tags = document.createElement("div");
+      tags.className = "member-tags";
+      var statusTag = document.createElement("span");
+      statusTag.className = "tag " + (m.paid ? "tag-paid" : "tag-unpaid");
+      statusTag.textContent = m.paid ? "Lunas" : "Belum Bayar";
+      tags.appendChild(statusTag);
+      if(m.hasWon){
+        var wonTag = document.createElement("span");
+        wonTag.className = "tag tag-won";
+        wonTag.textContent = "Sudah menang";
+        tags.appendChild(wonTag);
+      }
+      info.appendChild(tags);
+
+      if(m.hasWon){
+        var duty = document.createElement("span");
+        duty.className = "tag-duty";
+        if(unwon === 0){
+          duty.textContent = "Sisa kewajiban: putaran selesai.";
+        } else {
+          duty.textContent = "Sisa kewajiban: " + unwon + " periode (" + formatRupiah(unwon * state.group.dues) + ")";
+        }
+        info.appendChild(duty);
+      }
+
+      var actions = document.createElement("div");
+      actions.className = "member-actions";
+      var payBtn = document.createElement("button");
+      payBtn.type = "button";
+      payBtn.className = "btn-small pay-btn " + (m.paid ? "paid" : "unpaid");
+      payBtn.textContent = m.paid ? "Lunas" : "Belum Bayar";
+      payBtn.setAttribute("aria-label", "Ubah status bayar " + m.name);
+      payBtn.addEventListener("click", function(){
+        m.paid = !m.paid;
+        save(); render();
+      });
+      var delBtn = document.createElement("button");
+      delBtn.type = "button";
+      delBtn.className = "del-btn";
+      delBtn.textContent = "Hapus";
+      delBtn.setAttribute("aria-label", "Hapus anggota " + m.name);
+      delBtn.addEventListener("click", function(){
+        state.members = state.members.filter(function(x){ return x.id !== m.id; });
+        save(); render();
+      });
+      actions.appendChild(payBtn);
+      actions.appendChild(delBtn);
+
+      row.appendChild(num);
+      row.appendChild(info);
+      row.appendChild(actions);
+      list.appendChild(row);
+    });
+  }
+
+  function renderBill(){
+    var list = $("billList");
+    var unpaid = state.members.filter(function(m){ return !m.paid; });
+    $("billEmpty").hidden = unpaid.length > 0;
+    list.innerHTML = "";
+    unpaid.forEach(function(m){
+      var row = document.createElement("div");
+      row.className = "bill-row";
+      var left = document.createElement("div");
+      var nameEl = document.createElement("div");
+      nameEl.className = "b-name";
+      nameEl.textContent = m.name;
+      left.appendChild(nameEl);
+      if(m.hasWon){
+        var note = document.createElement("div");
+        note.className = "bill-note";
+        note.textContent = "Sudah menang, belum setor periode ini";
+        left.appendChild(note);
+      }
+      var amount = document.createElement("span");
+      amount.className = "b-amount";
+      amount.textContent = formatRupiah(state.group.dues);
+      row.appendChild(left);
+      row.appendChild(amount);
+      list.appendChild(row);
+    });
+  }
+
+  function renderHistory(){
+    var list = $("historyList");
+    $("historyEmpty").hidden = state.history.length > 0;
+    list.innerHTML = "";
+    var items = state.history.slice().reverse();
+    items.forEach(function(h){
+      var row = document.createElement("div");
+      row.className = "hist-row";
+      var main = document.createElement("div");
+      main.className = "hist-main";
+      var strong = document.createElement("strong");
+      strong.textContent = h.winnerName;
+      main.appendChild(strong);
+      var sub = document.createElement("div");
+      sub.className = "hist-sub";
+      sub.textContent = "Putaran " + h.round + " · Periode " + h.period + " · " + formatDate(h.date);
+      main.appendChild(sub);
+      var amount = document.createElement("span");
+      amount.className = "hist-amount";
+      amount.textContent = formatRupiah(h.amount);
+      row.appendChild(main);
+      row.appendChild(amount);
+      list.appendChild(row);
+    });
+  }
+
+  /* ---------- Draw ---------- */
+
+  function startDraw(){
+    var eligible = eligibleMembers();
+    if(rolling || !eligible.length || state.drawn) return;
+    rolling = true;
+    $("drawBtn").disabled = true;
+    var stage = $("drawStage");
+    stage.className = "draw-stage rolling";
+    $("stageLabel").textContent = "Mengocok…";
+    $("stageSub").textContent = "Nama bergulir di antara anggota yang eligible.";
+    $("drawReason").textContent = "Mengocok di antara " + eligible.length + " anggota yang eligible…";
+
+    var start = Date.now();
+    var duration = 2000;
+    var idx = 0;
+    var finished = false;
+    var timer = setInterval(function(){
+      $("stageName").textContent = eligible[idx % eligible.length].name;
+      idx++;
+    }, 75);
+    var timeout = setTimeout(finishOnce, duration);
+    function finishOnce(){
+      if(finished) return;
+      finished = true;
+      clearInterval(timer);
+      clearTimeout(timeout);
+      var winner = eligible[Math.floor(Math.random() * eligible.length)];
+      finishDraw(winner);
+    }
+  }
+
+  function finishDraw(winner){
+    rolling = false;
+    var amount = collected();
+    winner.hasWon = true;
+    state.drawn = {
+      winnerId: winner.id,
+      winnerName: winner.name,
+      amount: amount,
+      date: new Date().toISOString(),
+      round: state.round,
+      period: state.period
+    };
+    state.history.push({
+      round: state.round,
+      period: state.period,
+      winnerName: winner.name,
+      amount: amount,
+      date: state.drawn.date
+    });
+    save();
+    render();
+  }
+
+  /* ---------- Actions ---------- */
+
+  $("createForm").addEventListener("submit", function(e){
+    e.preventDefault();
+    var name = $("groupName").value.trim();
+    var duesRaw = $("duesInput").value.trim();
+    var dues = parseInt(duesRaw, 10);
+    var freq = $("freqSelect").value;
+    var err = $("createError");
+    err.classList.remove("show");
+    if(!name){
+      err.textContent = "Nama grup wajib diisi.";
+      err.classList.add("show");
+      $("groupName").focus();
+      return;
+    }
+    if(!duesRaw || isNaN(dues) || dues <= 0){
+      err.textContent = "Nominal iuran harus angka lebih dari 0.";
+      err.classList.add("show");
+      $("duesInput").focus();
+      return;
+    }
+    state = { group:{ name:name, dues:dues, frequency:freq, example:false }, round:1, period:1, members:[], history:[], drawn:null };
+    save();
+    render();
+    window.scrollTo({ top:0, behavior:"smooth" });
+  });
+
+  $("exampleBtn").addEventListener("click", function(){
+    var names = ["Siti Aminah","Budi Santoso","Dewi Lestari","Agus Wijaya","Rina Marlina","Joko Prasetyo"];
+    var members = names.map(function(n, i){
+      return { id:"ex-" + (i+1) + "-" + Date.now(), name:n, paid: i < 3, hasWon:false };
+    });
+    state = { group:{ name:"Arisan Contoh — RT 05", dues:100000, frequency:"Bulanan", example:true }, round:1, period:1, members:members, history:[], drawn:null };
+    save();
+    render();
+    window.scrollTo({ top:0, behavior:"smooth" });
+  });
+
+  $("addMemberForm").addEventListener("submit", function(e){
+    e.preventDefault();
+    var input = $("memberName");
+    var name = input.value.trim();
+    var err = $("memberError");
+    err.classList.remove("show");
+    if(!name){
+      err.textContent = "Nama anggota wajib diisi.";
+      err.classList.add("show");
+      input.focus();
+      return;
+    }
+    var duplicate = state.members.some(function(m){ return m.name.toLowerCase() === name.toLowerCase(); });
+    if(duplicate){
+      err.textContent = "Nama tersebut sudah terdaftar di grup ini.";
+      err.classList.add("show");
+      input.focus();
+      return;
+    }
+    state.members.push({ id:"m-" + Date.now() + "-" + Math.floor(Math.random()*100000), name:name, paid:false, hasWon:false });
+    input.value = "";
+    save();
+    render();
+    input.focus();
+  });
+
+  $("drawBtn").addEventListener("click", startDraw);
+
+  $("nextPeriodBtn").addEventListener("click", function(){
+    if(!state.drawn || isRoundComplete()) return;
+    state.members.forEach(function(m){ m.paid = false; });
+    state.period += 1;
+    state.drawn = null;
+    save();
+    render();
+    window.scrollTo({ top:0, behavior:"smooth" });
+  });
+
+  $("newRoundBtn").addEventListener("click", function(){
+    state.members.forEach(function(m){ m.hasWon = false; m.paid = false; });
+    state.round += 1;
+    state.period = 1;
+    state.drawn = null;
+    save();
+    render();
+    window.scrollTo({ top:0, behavior:"smooth" });
+  });
+
+  /* Reset all with in-page confirmation */
+  $("resetAllBtn").addEventListener("click", function(){
+    $("confirmBackdrop").classList.add("open");
+  });
+  $("cancelResetBtn").addEventListener("click", function(){
+    $("confirmBackdrop").classList.remove("open");
+  });
+  $("confirmBackdrop").addEventListener("click", function(e){
+    if(e.target === $("confirmBackdrop")) $("confirmBackdrop").classList.remove("open");
+  });
+  $("confirmResetBtn").addEventListener("click", function(){
+    state = defaultState();
+    try{ window.localStorage.removeItem(STORAGE_KEY); }catch(e){}
+    $("confirmBackdrop").classList.remove("open");
+    $("groupName").value = "";
+    $("duesInput").value = "";
+    render();
+    window.scrollTo({ top:0, behavior:"smooth" });
+  });
+
+  /* Copy recap */
+  $("copyBtn").addEventListener("click", function(){
+    var unpaid = state.members.filter(function(m){ return !m.paid; });
+    var last = state.history[state.history.length - 1];
+    var lines = [];
+    lines.push("ArisanKu — " + state.group.name);
+    lines.push("Putaran " + state.round + " · Periode " + state.period + " (" + state.group.frequency + ")");
+    lines.push("Terkumpul: " + formatRupiah(collected()) + " dari " + formatRupiah(target()) + " (" + paidCount() + " dari " + state.members.length + " anggota lunas)");
+    if(last){
+      lines.push("Pemenang terakhir: " + last.winnerName + " — " + formatRupiah(last.amount) + " (Putaran " + last.round + ", Periode " + last.period + ")");
+    } else {
+      lines.push("Pemenang terakhir: belum ada kocokan");
+    }
+    if(unpaid.length){
+      lines.push("Belum bayar (" + unpaid.length + "):");
+      unpaid.forEach(function(m){
+        lines.push("- " + m.name + (m.hasWon ? " (sudah menang, belum setor)" : "") + " — " + formatRupiah(state.group.dues));
+      });
+    } else {
+      lines.push("Belum bayar: tidak ada, semua sudah lunas.");
+    }
+    var text = lines.join("\n");
+
+    function showOk(){
+      var ok = $("copyOk");
+      ok.classList.add("show");
+      $("copyBtn").textContent = "Rekap tersalin";
+      setTimeout(function(){
+        ok.classList.remove("show");
+        $("copyBtn").textContent = "Salin rekap untuk grup WA";
+      }, 3000);
+    }
+
+    if(navigator.clipboard && navigator.clipboard.writeText){
+      navigator.clipboard.writeText(text).then(showOk).catch(function(){ fallbackCopy(text, showOk); });
+    } else {
+      fallbackCopy(text, showOk);
+    }
+  });
+
+  function fallbackCopy(text, done){
+    var ta = document.createElement("textarea");
+    ta.value = text;
+    ta.style.position = "fixed";
+    ta.style.opacity = "0";
+    document.body.appendChild(ta);
+    ta.select();
+    try{ document.execCommand("copy"); done(); }catch(e){}
+    document.body.removeChild(ta);
+  }
+
+  render();
+})();
+</script>
+</body>
+</html>
